@@ -1,62 +1,54 @@
-# Frontend Project Documentation
+# React + TypeScript + Vite
 
-## Construction Project Tracker
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-This project is a web-based system designed to facilitate project management for both administrators and customers. The application allows admins to manage customer information and project progress, while customers can log in to track their project's status.
+Currently, two official plugins are available:
 
-### Key Features
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-#### Admin Panel
-- **Login Functionality**: Secure access for administrators.
-- **Customer Management**: Add and manage customer details.
-- **Project Management**: Create and manage projects for each customer.
-- **File Uploads**: Upload documents, images, and videos related to projects.
-- **Project Status Updates**: Update project status with descriptions and progress details.
-- **Dashboard**: View customer details including name, address, contact information, and project specifics.
+## Expanding the ESLint configuration
 
-#### Customer Portal
-- **User Login**: Customers can securely log in to their accounts.
-- **Project Updates**: View updates on their projects, including images, descriptions, and videos.
-- **Progress Tracking**: Visual representation of project progress via pie charts.
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-### Technology Stack
-- **Frontend**: React.js
-- **Backend**: Node.js with Express.js
-- **Database**: MongoDB
-- **Authentication**: Secure login system for both admin and customers
-- **Storage**: Customer details and project-related data stored in the database
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-### Getting Started
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-1. **Clone the Repository**:
-   ```bash
-   git clone <repository-url>
-   cd construction-project-tracker
-   ```
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-2. **Install Dependencies**:
-   Navigate to the frontend directory and install the necessary packages:
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-3. **Run the Application**:
-   Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-### Folder Structure
-- **src**: Contains all the source code for the frontend application.
-  - **components**: React components for admin and customer interfaces.
-  - **pages**: Page components for different routes.
-  - **services**: API services for handling requests.
-  - **types**: TypeScript types and interfaces.
-  - **utils**: Utility functions.
-
-### Contributing
-Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
-
-### License
-This project is licensed under the MIT License. See the LICENSE file for details.
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```

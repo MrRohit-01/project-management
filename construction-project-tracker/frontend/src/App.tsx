@@ -1,9 +1,12 @@
-import React from 'react';
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import AdminDashboard from './components/admin/Dashboard';
-import { isAuthenticated } from './utils/auth';
+import { useEffect } from 'react';
 
 function App() {
   return (
@@ -12,12 +15,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route 
-          path="/admin/dashboard" 
-          element={
-            isAuthenticated() ? <AdminDashboard /> : <Navigate to="/login" />
-          } 
-        />
+        <Route path="/admin/*" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
